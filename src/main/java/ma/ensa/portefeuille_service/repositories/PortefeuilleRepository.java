@@ -5,6 +5,9 @@ import org.springframework.stereotype.Repository;
 
 import ma.ensa.portefeuille_service.entities.Portefeuille;
 
+import java.util.Optional;
+
 @Repository
 public interface PortefeuilleRepository extends JpaRepository<Portefeuille, Long> {
+    Optional<Portefeuille> findByClientId(Long clientId);
 }

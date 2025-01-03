@@ -21,12 +21,16 @@ public class PortefeuilleService {
     public Portefeuille getPortefeuille(Long id) {
         return portefeuilleRepository.findById(id).orElseThrow(() -> new RuntimeException("Portefeuille not found"));
     }
+    public Portefeuille getPortefeuilleByClientId(Long clientId) {
+        return portefeuilleRepository.findByClientId(clientId)
+                .orElseThrow(() -> new RuntimeException("Portefeuille introuvable pour le client ID : " + clientId));
+    }
 
     public List<Portefeuille> getAllPortefeuilles() {
         return portefeuilleRepository.findAll();
     }
 
-    public Portefeuille updatePortefeuille(Long id, String currency, Double plafond) {
+    public Portefeuille updatePortefeuilleById(Long id, String currency, Double plafond) {
         Portefeuille portefeuille = portefeuilleRepository.findById(id).orElseThrow(() -> new RuntimeException("Portefeuille not found"));
         if (currency != null) {
             portefeuille.setCurrency(currency);
@@ -36,6 +40,7 @@ public class PortefeuilleService {
         }
         return portefeuilleRepository.save(portefeuille);
     }
+
 
     public Portefeuille incrementSolde(Long id, Double amount) {
         Portefeuille portefeuille = portefeuilleRepository.findById(id).orElseThrow(() -> new RuntimeException("Portefeuille not found"));
@@ -48,6 +53,15 @@ public class PortefeuilleService {
         }
 
         portefeuille.setSolde(portefeuille.getSolde() + amount);
+        return portefeuilleRepository.save(portefeuille);
+    }
+
+
+    //////////// by clientId
+
+    public Portefeuille updatePortefeuille(Long clientId, Double newSolde) {
+        Portefeuille portefeuille = getPortefeuilleByClientId(clientId);
+        portefeuille.setSolde(newSolde);
         return portefeuilleRepository.save(portefeuille);
     }
 }

@@ -13,7 +13,6 @@ import jakarta.persistence.ManyToOne;
 import lombok.Data;
 
 @Entity
-@Data
 public class VirtualCard {
 
     @Id
@@ -33,5 +32,51 @@ public class VirtualCard {
     @JsonIgnore
     private Portefeuille portefeuille;
 
-    // Getters and Setters
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getNum() {
+        return num;
+    }
+
+    public void setNum(String num) {
+        this.num = num;
+    }
+
+    public String getCvv() {
+        return cvv;
+    }
+
+    public void setCvv(String cvv) {
+        this.cvv = cvv;
+    }
+
+    public LocalDate getExpire() {
+        return expire;
+    }
+
+    public void setExpire(LocalDate expire) {
+        this.expire = expire;
+    }
+
+    public Double getSolde() {
+        return solde;
+    }
+
+    public void setSolde(Double solde) {
+        this.solde = solde;
+    }
+
+    public Portefeuille getPortefeuille() {
+        return portefeuille;
+    }
+
+    public void setPortefeuille(Portefeuille portefeuille) {
+        this.portefeuille = portefeuille;
+    }
 }
