@@ -39,7 +39,7 @@ public class PortefeuilleController {
         return ResponseEntity.ok(portefeuilleService.getAllPortefeuilles());
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("currencyPlafond/{id}")
     public ResponseEntity<Portefeuille> updatePortefeuilleById(@PathVariable Long id, @RequestParam(required = false) String currency, @RequestParam(required = false) Double plafond) {
         try {
             Portefeuille updatedPortefeuille = portefeuilleService.updatePortefeuilleById(id, currency, plafond);
@@ -66,8 +66,22 @@ public class PortefeuilleController {
     }
 
     @PutMapping("updateByClientId/{clientId}")
-    public ResponseEntity<Portefeuille> updatePortefeuille(@PathVariable Long clientId, @RequestBody Portefeuille portefeuille) {
-        Portefeuille updatedPortefeuille = portefeuilleService.updatePortefeuille(clientId, portefeuille.getSolde());
+    public ResponseEntity<Portefeuille> updatePortefeuilleByClientId(@PathVariable Long clientId, @RequestBody Portefeuille portefeuille) {
+        Portefeuille updatedPortefeuille = portefeuilleService.updatePortefeuilleByClientId(clientId, portefeuille.getSolde());
+        return ResponseEntity.ok(updatedPortefeuille);
+    }
+
+
+    //transaction part
+    @PutMapping("/{id}")
+    public ResponseEntity<Portefeuille> updatePortefeuille(@PathVariable("id") Long id, @RequestBody Portefeuille portefeuille) {
+
+        Portefeuille updatedPortefeuille = portefeuilleService.updatePortefeuille(id, portefeuille);
+
+        if (updatedPortefeuille == null) {
+            return ResponseEntity.notFound().build();
+        }
+
         return ResponseEntity.ok(updatedPortefeuille);
     }
 }

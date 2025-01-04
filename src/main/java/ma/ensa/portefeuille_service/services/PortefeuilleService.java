@@ -59,9 +59,18 @@ public class PortefeuilleService {
 
     //////////// by clientId
 
-    public Portefeuille updatePortefeuille(Long clientId, Double newSolde) {
+    public Portefeuille updatePortefeuilleByClientId(Long clientId, Double newSolde) {
         Portefeuille portefeuille = getPortefeuilleByClientId(clientId);
         portefeuille.setSolde(newSolde);
         return portefeuilleRepository.save(portefeuille);
+    }
+
+    ////transaction part
+    public Portefeuille updatePortefeuille(Long id, Portefeuille portefeuille) {
+        return portefeuilleRepository.findById(id)
+                .map(existingPortefeuille -> {
+                    existingPortefeuille.setSolde(portefeuille.getSolde()); return portefeuilleRepository.save(existingPortefeuille);
+                })
+                .orElse(null);
     }
 }
