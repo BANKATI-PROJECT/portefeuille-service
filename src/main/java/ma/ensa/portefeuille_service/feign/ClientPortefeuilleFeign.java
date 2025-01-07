@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
-@FeignClient(name = "accountManagement-service")
+@FeignClient(name = "accountManagement-service",url = "https://5ed8-105-71-135-223.ngrok-free.app/")
 public interface ClientPortefeuilleFeign {
 
     @PutMapping("/api/client/{id}/saveToken")

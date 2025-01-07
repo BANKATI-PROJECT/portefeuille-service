@@ -7,6 +7,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -28,6 +29,7 @@ import ma.ensa.portefeuille_service.services.PortefeuilleService;
 import ma.ensa.portefeuille_service.util.SoapHandler;
 
 @RestController
+@CrossOrigin(origins = "*")
 @RequestMapping("/api/portefeuilles")
 public class PortefeuilleController {
 
@@ -136,9 +138,11 @@ public class PortefeuilleController {
                 realCreditCard.getCvv(),
                 realCreditCard.getExpire(),
                 realCreditCard.getLabel());
+            
             SOAPMessage soapResponse = SoapHandler.sendSoapRequest("https://cmi-service-production.up.railway.app/ws/requests_responses", soapRequest);
+            System.out.println("Number 1");
             AddRealCardResponse r = SoapHandler.parsebuildAddRealCardResponse(soapResponse);
-
+            System.out.println("Number 2");
             Portefeuille portefeuille = portefeuilleService.getPortefeuille(id);
             portefeuille.setDefaultCardId(r.getCardId());
             portefeuilleService.updatePortefeuille(id, portefeuille);
@@ -146,6 +150,7 @@ public class PortefeuilleController {
             clientPortefeuilleFeign.updateClientSaveTokenById(portefeuille.getClientId(), r.getSafeToken());
             return ResponseEntity.ok("Real Card added successfully");
         } catch (Exception e) {
+            System.out.println(e.getMessage());
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }   
     }
