@@ -3,7 +3,7 @@ target/**
 !.mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/
 !**/src/test/**/target/
-!taget/Portefeuille-service-0.0.1-SNAPSHOT.jar
+!target/Portefeuille-service-0.0.1-SNAPSHOT.jar
 ### STS ###
 .apt_generated
 .classpath
