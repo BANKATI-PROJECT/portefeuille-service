@@ -29,14 +29,14 @@ public class VirtualCardService {
         }
 
         VirtualCard virtualCard = new VirtualCard();
-        /*
+        
          
         virtualCard.setNum(generateRandomNumber(16));
         virtualCard.setCvv(generateRandomNumber(3));
         virtualCard.setExpire(LocalDate.now().plusMonths(6)); // carte virtuelle katb9a sal7a 6 mois
         virtualCard.setSolde(solde != null ? solde : 0.0);
         virtualCard.setPortefeuille(portefeuille);
-        */
+        
 
         if (solde != null) {
             portefeuille.setSolde(portefeuille.getSolde() - solde);

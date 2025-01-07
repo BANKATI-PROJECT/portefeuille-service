@@ -41,17 +41,8 @@ public class PortefeuilleService {
         return portefeuilleRepository.save(portefeuille);
     }
 
-
     public Portefeuille incrementSolde(Long id, Double amount) {
         Portefeuille portefeuille = portefeuilleRepository.findById(id).orElseThrow(() -> new RuntimeException("Portefeuille not found"));
-
-        // Simulating a confirmation from a remote service
-        boolean isConfirmed = true; // Replace with actual logic later
-
-        if (!isConfirmed) {
-            throw new RuntimeException("Failed to confirm the increment with the remote service");
-        }
-
         portefeuille.setSolde(portefeuille.getSolde() + amount);
         return portefeuilleRepository.save(portefeuille);
     }
