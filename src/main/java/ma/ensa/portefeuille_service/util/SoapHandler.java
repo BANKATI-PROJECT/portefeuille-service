@@ -140,7 +140,7 @@ public class SoapHandler {
 
             // Extract card details
             card.setId(Integer.parseInt(getElementTextContent(cardElement, "ns2:id")));
-            card.setNum(getElementTextContent(cardElement, "ns2:num"));
+            card.setNum(obscureCreditCardNumber(getElementTextContent(cardElement, "ns2:num")));
             card.setLabel(getElementTextContent(cardElement, "ns2:label"));
 
             cards.add(card);
@@ -215,5 +215,18 @@ public class SoapHandler {
 
         // Return the constructed SOAP message
         return soapMessage;
+    }
+
+    private static String obscureCreditCardNumber(String cardNumber) {
+        if (cardNumber == null || cardNumber.length() < 8) {
+            return cardNumber; // Return as is if too short to obscure
+        }
+        // Keep the first 4 and last 4 digits visible, replace the middle with *
+        int visibleDigits = 4;
+        int length = cardNumber.length();
+        String start = cardNumber.substring(0, visibleDigits);
+        String end = cardNumber.substring(length - visibleDigits);
+        String obscuredMiddle = "*".repeat(length - (2 * visibleDigits));
+        return start + obscuredMiddle + end;
     }
 }

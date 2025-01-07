@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import ma.ensa.portefeuille_service.entities.Portefeuille;
+import ma.ensa.portefeuille_service.feign.TransactionPortefeuilleFeign;
+import ma.ensa.portefeuille_service.model.DepositRequest;
 import ma.ensa.portefeuille_service.repositories.PortefeuilleRepository;
 
 @Service
@@ -13,6 +15,7 @@ public class PortefeuilleService {
 
     @Autowired
     private PortefeuilleRepository portefeuilleRepository;
+    @Autowired TransactionPortefeuilleFeign transactionFeign;
 
     public Portefeuille createPortefeuille(Portefeuille portefeuille) {
         return portefeuilleRepository.save(portefeuille);
@@ -44,6 +47,13 @@ public class PortefeuilleService {
     public Portefeuille incrementSolde(Long id, Double amount) {
         Portefeuille portefeuille = portefeuilleRepository.findById(id).orElseThrow(() -> new RuntimeException("Portefeuille not found"));
         portefeuille.setSolde(portefeuille.getSolde() + amount);
+
+        DepositRequest depositRequest = new DepositRequest();
+        depositRequest.setAmount(amount);
+        depositRequest.setClientId(portefeuille.getClientId());
+        depositRequest.setSolde(portefeuille.getSolde());
+        
+        transactionFeign.depositToPortefeuille(depositRequest);
         return portefeuilleRepository.save(portefeuille);
     }
 
