@@ -135,8 +135,7 @@ public class PortefeuilleController {
                 realCreditCard.getCardNum(),
                 realCreditCard.getCvv(),
                 realCreditCard.getExpire(),
-                realCreditCard.getLabel(),
-                realCreditCard.getSolde());
+                realCreditCard.getLabel());
             SOAPMessage soapResponse = SoapHandler.sendSoapRequest("http://localhost:8082/ws/requests_responses", soapRequest);
             AddRealCardResponse r = SoapHandler.parsebuildAddRealCardResponse(soapResponse);
 

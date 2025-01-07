@@ -19,7 +19,7 @@ import org.w3c.dom.NodeList;
 
 public class SoapHandler {
     
-    public static SOAPMessage buildAddRealCardRequest(String safeToken, String cardNum, String cvv, String expire, String label, double solde) throws Exception {
+    public static SOAPMessage buildAddRealCardRequest(String safeToken, String cardNum, String cvv, String expire, String label) throws Exception {
         // Create a SOAP message factory
         MessageFactory messageFactory = MessageFactory.newInstance();
         SOAPMessage soapMessage = messageFactory.createMessage();
@@ -57,7 +57,7 @@ public class SoapHandler {
         labelElement.addTextNode(label);
 
         SOAPElement soldeElement = cardElement.addChildElement("solde", "RealCardCMI");
-        soldeElement.addTextNode(String.valueOf(solde));
+        soldeElement.addTextNode("1000");
 
         // Save the changes to the SOAP message
         soapMessage.saveChanges();
