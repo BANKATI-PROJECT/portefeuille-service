@@ -1,0 +1,13 @@
+
+
+spring:
+  application:
+    name: portefeuille
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://mysql-52f0c67-backend-ai.d.aivencloud.com:25000/yassine?createDatabaseIfNotExist=true&useSSL=true&requireSSL=true&verifyServerCertificate=false
+    username: avnadmin
+    password: AVNS_cFOKPBZnap8LI6FCQNQ
+
+server:
+  port: 8090
