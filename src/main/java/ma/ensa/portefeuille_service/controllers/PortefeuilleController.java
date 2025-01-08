@@ -30,7 +30,7 @@ public class PortefeuilleController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Portefeuille> getPortefeuille(@PathVariable Long id) {
+    public ResponseEntity<Portefeuille> getPortefeuille(@PathVariable String id) {
         return ResponseEntity.ok(portefeuilleService.getPortefeuille(id));
     }
 
@@ -40,7 +40,7 @@ public class PortefeuilleController {
     }
 
     @PutMapping("currencyPlafond/{id}")
-    public ResponseEntity<Portefeuille> updatePortefeuilleById(@PathVariable Long id, @RequestParam(required = false) String currency, @RequestParam(required = false) Double plafond) {
+    public ResponseEntity<Portefeuille> updatePortefeuilleById(@PathVariable String id, @RequestParam(required = false) String currency, @RequestParam(required = false) Double plafond) {
         try {
             Portefeuille updatedPortefeuille = portefeuilleService.updatePortefeuilleById(id, currency, plafond);
             return ResponseEntity.ok(updatedPortefeuille);
@@ -50,7 +50,7 @@ public class PortefeuilleController {
     }
 
     @PostMapping("/{id}/increment")
-    public ResponseEntity<?> incrementSolde(@PathVariable Long id, @RequestParam Double amount) {
+    public ResponseEntity<?> incrementSolde(@PathVariable String id, @RequestParam Double amount) {
         try {
             Portefeuille updatedPortefeuille = portefeuilleService.incrementSolde(id, amount);
             return ResponseEntity.ok(updatedPortefeuille);
@@ -74,7 +74,7 @@ public class PortefeuilleController {
 
     //transaction part
     @PutMapping("/{id}")
-    public ResponseEntity<Portefeuille> updatePortefeuille(@PathVariable("id") Long id, @RequestBody Portefeuille portefeuille) {
+    public ResponseEntity<Portefeuille> updatePortefeuille(@PathVariable("id") String id, @RequestBody Portefeuille portefeuille) {
 
         Portefeuille updatedPortefeuille = portefeuilleService.updatePortefeuille(id, portefeuille);
 

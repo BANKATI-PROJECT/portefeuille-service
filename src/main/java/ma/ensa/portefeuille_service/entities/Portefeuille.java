@@ -10,8 +10,7 @@ import lombok.Data;
 public class Portefeuille {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private String id;
 
     private Double solde;
 
@@ -23,7 +22,17 @@ public class Portefeuille {
     @OneToMany(mappedBy = "portefeuille", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<VirtualCard> virtualCards = new ArrayList<>();
 
-    public Long getId() {
+    public Long getDefaultRealCard() {
+        return defaultRealCard;
+    }
+
+    public void setDefaultRealCard(Long defaultRealCard) {
+        this.defaultRealCard = defaultRealCard;
+    }
+
+    private Long defaultRealCard;
+
+    public String getId() {
         return id;
     }
 
@@ -44,7 +53,7 @@ public class Portefeuille {
         return virtualCards;
     }
 
-    public void setId(Long id) {
+    public void setId(String id) {
         this.id = id;
     }
 

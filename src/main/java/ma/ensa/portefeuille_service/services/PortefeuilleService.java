@@ -18,7 +18,7 @@ public class PortefeuilleService {
         return portefeuilleRepository.save(portefeuille);
     }
 
-    public Portefeuille getPortefeuille(Long id) {
+    public Portefeuille getPortefeuille(String id) {
         return portefeuilleRepository.findById(id).orElseThrow(() -> new RuntimeException("Portefeuille not found"));
     }
     public Portefeuille getPortefeuilleByClientId(Long clientId) {
@@ -30,7 +30,7 @@ public class PortefeuilleService {
         return portefeuilleRepository.findAll();
     }
 
-    public Portefeuille updatePortefeuilleById(Long id, String currency, Double plafond) {
+    public Portefeuille updatePortefeuilleById(String id, String currency, Double plafond) {
         Portefeuille portefeuille = portefeuilleRepository.findById(id).orElseThrow(() -> new RuntimeException("Portefeuille not found"));
         if (currency != null) {
             portefeuille.setCurrency(currency);
@@ -42,7 +42,7 @@ public class PortefeuilleService {
     }
 
 
-    public Portefeuille incrementSolde(Long id, Double amount) {
+    public Portefeuille incrementSolde(String id, Double amount) {
         Portefeuille portefeuille = portefeuilleRepository.findById(id).orElseThrow(() -> new RuntimeException("Portefeuille not found"));
 
         // Simulating a confirmation from a remote service
@@ -66,7 +66,7 @@ public class PortefeuilleService {
     }
 
     ////transaction part
-    public Portefeuille updatePortefeuille(Long id, Portefeuille portefeuille) {
+    public Portefeuille updatePortefeuille(String id, Portefeuille portefeuille) {
         return portefeuilleRepository.findById(id)
                 .map(existingPortefeuille -> {
                     existingPortefeuille.setSolde(portefeuille.getSolde()); return portefeuilleRepository.save(existingPortefeuille);
