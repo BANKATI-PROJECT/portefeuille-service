@@ -1,0 +1,17 @@
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: https://eureka-service-production.up.railway.app/eureka/
+  instance:
+    prefer-ip-address: true
+    ip-address: "portefeuille-service-production.up.railway.app"
+    hostname: "portefeuille-service-production.up.railway.app"
+    metadata-map:
+      instanceId: "portefeuille-service:https://portefeuille-service-production.up.railway.app"
+    instance-id: "portefeuille-service:https://portefeuille-service-production.up.railway.app"
+    non-secure-port-enabled: false
+    secure-port-enabled: true
+    secure-port: 443
+    status-page-url: "https://portefeuille-service-production.up.railway.app/actuator/info"
+    health-check-url: "https://portefeuille-service-production.up.railway.app/actuator/health"
+    home-page-url: "https://portefeuille-service-production.up.railway.app"
