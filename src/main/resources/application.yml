@@ -1,7 +1,7 @@
 eureka:
   client:
     serviceUrl:
-      defaultZone: https://eureka-service-production.up.railway.app/eureka/
+      defaultZone: https://eurika-service-production.up.railway.app/eureka/
   instance:
     prefer-ip-address: true
     ip-address: "portefeuille-service-production.up.railway.app"
