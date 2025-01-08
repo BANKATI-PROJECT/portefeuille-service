@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 import ma.ensa.portefeuille_service.model.DepositRequest;
 
-@FeignClient(name = "transaction-service" ,url = "http://localhost:8086")
+@FeignClient(name = "transaction-service")
 public interface TransactionPortefeuilleFeign {
 
     @PostMapping("/deposit")
