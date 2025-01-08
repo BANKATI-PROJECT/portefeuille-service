@@ -1,7 +1,10 @@
 package ma.ensa.portefeuille_service.services;
 
 import java.util.List;
+import java.util.UUID;
 
+import com.mysql.cj.xdevapi.Schema;
+import ma.ensa.portefeuille_service.requests.CreatePortfeuilleRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,11 +20,9 @@ public class PortefeuilleService {
     private PortefeuilleRepository portefeuilleRepository;
     @Autowired TransactionPortefeuilleFeign transactionFeign;
 
-    public Portefeuille createPortefeuille(Portefeuille portefeuille) {
-        return portefeuilleRepository.save(portefeuille);
-    }
 
-    public Portefeuille getPortefeuille(Long id) {
+
+    public Portefeuille getPortefeuille(String id) {
         return portefeuilleRepository.findById(id).orElseThrow(() -> new RuntimeException("Portefeuille not found"));
     }
     public Portefeuille getPortefeuilleByClientId(Long clientId) {
@@ -33,7 +34,7 @@ public class PortefeuilleService {
         return portefeuilleRepository.findAll();
     }
 
-    public Portefeuille updatePortefeuilleById(Long id, String currency, Double plafond) {
+    public Portefeuille updatePortefeuilleById(String id, String currency, String plafond) {
         Portefeuille portefeuille = portefeuilleRepository.findById(id).orElseThrow(() -> new RuntimeException("Portefeuille not found"));
         if (currency != null) {
             portefeuille.setCurrency(currency);
@@ -44,7 +45,8 @@ public class PortefeuilleService {
         return portefeuilleRepository.save(portefeuille);
     }
 
-    public Portefeuille incrementSolde(Long id, Double amount) {
+
+    public Portefeuille incrementSolde(String id, Double amount) {
         Portefeuille portefeuille = portefeuilleRepository.findById(id).orElseThrow(() -> new RuntimeException("Portefeuille not found"));
         portefeuille.setSolde(portefeuille.getSolde() + amount);
 
@@ -67,11 +69,21 @@ public class PortefeuilleService {
     }
 
     ////transaction part
-    public Portefeuille updatePortefeuille(Long id, Portefeuille portefeuille) {
+    public Portefeuille updatePortefeuille(String id, Portefeuille portefeuille) {
         return portefeuilleRepository.findById(id)
                 .map(existingPortefeuille -> {
                     existingPortefeuille.setSolde(portefeuille.getSolde()); return portefeuilleRepository.save(existingPortefeuille);
                 })
                 .orElse(null);
+    }
+
+    public Portefeuille createPortefeuille(CreatePortfeuilleRequest createPortfeuilleRequest){
+        Portefeuille portefeuille=new Portefeuille();
+        portefeuille.setId(UUID.randomUUID().toString());
+        portefeuille.setSolde(0.0);
+        portefeuille.setClientId(createPortfeuilleRequest.getClientId());
+        portefeuille.setCurrency(createPortfeuilleRequest.getCurrency());
+        portefeuille.setPlafond(createPortfeuilleRequest.getPlafond());
+        return portefeuilleRepository.save(portefeuille);
     }
 }

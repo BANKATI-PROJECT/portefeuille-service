@@ -2,7 +2,7 @@ package ma.ensa.portefeuille_service.controllers;
 
 import java.util.List;
 
-// import javax.sound.sampled.Port;
+import ma.ensa.portefeuille_service.requests.CreatePortfeuilleRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -22,7 +22,6 @@ import ma.ensa.portefeuille_service.entities.Portefeuille;
 import ma.ensa.portefeuille_service.feign.ClientPortefeuilleFeign;
 import ma.ensa.portefeuille_service.model.AddRealCardResponse;
 import ma.ensa.portefeuille_service.model.AddRealCreditCard;
-// import ma.ensa.portefeuille_service.model.Client;
 import ma.ensa.portefeuille_service.model.MessageResponse;
 import ma.ensa.portefeuille_service.model.RealCardCMI;
 import ma.ensa.portefeuille_service.services.PortefeuilleService;
@@ -36,16 +35,14 @@ public class PortefeuilleController {
     @Autowired
     private PortefeuilleService portefeuilleService;
 
+
     @Autowired
     private ClientPortefeuilleFeign clientPortefeuilleFeign;
 
-    @PostMapping
-    public ResponseEntity<Portefeuille> createPortefeuille(@RequestBody Portefeuille portefeuille) {
-        return ResponseEntity.ok(portefeuilleService.createPortefeuille(portefeuille));
-    }
+
 
     @GetMapping("/{id}")
-    public ResponseEntity<Portefeuille> getPortefeuille(@PathVariable Long id) {
+    public ResponseEntity<Portefeuille> getPortefeuille(@PathVariable String id) {
         return ResponseEntity.ok(portefeuilleService.getPortefeuille(id));
     }
 
@@ -55,7 +52,7 @@ public class PortefeuilleController {
     }
 
     @PutMapping("currencyPlafond/{id}")
-    public ResponseEntity<Portefeuille> updatePortefeuilleById(@PathVariable Long id, @RequestParam(required = false) String currency, @RequestParam(required = false) Double plafond) {
+    public ResponseEntity<Portefeuille> updatePortefeuilleById(@PathVariable String id, @RequestParam(required = false) String currency, @RequestParam(required = false) String plafond) {
         try {
             Portefeuille updatedPortefeuille = portefeuilleService.updatePortefeuilleById(id, currency, plafond);
             return ResponseEntity.ok(updatedPortefeuille);
@@ -65,7 +62,7 @@ public class PortefeuilleController {
     }
 
     @PostMapping("/{id}/increment")
-    public ResponseEntity<?> incrementSolde(@PathVariable Long id, @RequestParam Double amount) {
+    public ResponseEntity<?> incrementSolde(@PathVariable String id, @RequestParam Double amount) {
         try {
             Portefeuille portefeuille = portefeuilleService.getPortefeuille(id);
             if(portefeuille==null){
@@ -75,7 +72,7 @@ public class PortefeuilleController {
 
             SOAPMessage soapRequest;
             soapRequest = SoapHandler.createTransactionRequest(savetoken, portefeuille.getDefaultCardId(), amount);
-            SOAPMessage soapResponse = SoapHandler.sendSoapRequest("https://cmi-service-production.up.railway.app/ws/requests_responses", soapRequest);
+            SOAPMessage soapResponse = SoapHandler.sendSoapRequest("http://localhost:8082/ws/requests_responses", soapRequest);
             MessageResponse r = SoapHandler.parseCreateTransactionResponse(soapResponse);
 
             if(r.getMessage()=="Transaction successful"){
@@ -103,7 +100,7 @@ public class PortefeuilleController {
 
     //transaction part
     @PutMapping("/{id}")
-    public ResponseEntity<Portefeuille> updatePortefeuille(@PathVariable("id") Long id, @RequestBody Portefeuille portefeuille) {
+    public ResponseEntity<Portefeuille> updatePortefeuille(@PathVariable("id") String id, @RequestBody Portefeuille portefeuille) {
 
         Portefeuille updatedPortefeuille = portefeuilleService.updatePortefeuille(id, portefeuille);
 
@@ -114,8 +111,17 @@ public class PortefeuilleController {
         return ResponseEntity.ok(updatedPortefeuille);
     }
 
+
+
+    @PostMapping("/createPortefeuille")
+    public Portefeuille createPostefeuille(@RequestBody CreatePortfeuilleRequest request) {
+    Portefeuille portefeuille = portefeuilleService.createPortefeuille(request);
+    return portefeuille;
+    }
+
+
     @PutMapping("/{portefeuilleId}/defaultcard/{id}")
-    public ResponseEntity<Portefeuille> setDefaultCard(@PathVariable("portefeuilleId") Long portefeuilleId,@PathVariable("id") long id) {
+    public ResponseEntity<Portefeuille> setDefaultCard(@PathVariable("portefeuilleId") String portefeuilleId,@PathVariable("id") long id) {
 
         Portefeuille updatedPortefeuille = portefeuilleService.getPortefeuille(portefeuilleId);
         
@@ -129,7 +135,7 @@ public class PortefeuilleController {
     }
 
     @PostMapping("/addRealCard/{id}")
-    public ResponseEntity<?> addRealCard(@PathVariable Long id,@RequestBody AddRealCreditCard realCreditCard) {
+    public ResponseEntity<?> addRealCard(@PathVariable String id,@RequestBody AddRealCreditCard realCreditCard) {
         SOAPMessage soapRequest;
         try {
             soapRequest = SoapHandler.buildAddRealCardRequest(
@@ -139,7 +145,7 @@ public class PortefeuilleController {
                 realCreditCard.getExpire(),
                 realCreditCard.getLabel());
             
-            SOAPMessage soapResponse = SoapHandler.sendSoapRequest("https://cmi-service-production.up.railway.app/ws/requests_responses", soapRequest);
+            SOAPMessage soapResponse = SoapHandler.sendSoapRequest("http://localhost:8082/ws/requests_responses", soapRequest);
             System.out.println("Number 1");
             AddRealCardResponse r = SoapHandler.parsebuildAddRealCardResponse(soapResponse);
             System.out.println("Number 2");
@@ -156,7 +162,7 @@ public class PortefeuilleController {
     }
 
     @GetMapping("/getRealCards/{id}")
-    public ResponseEntity<?> getRealCards(@PathVariable Long id) {
+    public ResponseEntity<?> getRealCards(@PathVariable String id) {
         SOAPMessage soapRequest;
         try {
             Portefeuille portefeuille = portefeuilleService.getPortefeuille(id);
@@ -166,7 +172,7 @@ public class PortefeuilleController {
             String savetoken = clientPortefeuilleFeign.getSavetokenByClientId(portefeuille.getClientId()).getBody();
 
             soapRequest = SoapHandler.createGetAllCardsRequest(savetoken);
-            SOAPMessage soapResponse = SoapHandler.sendSoapRequest("https://cmi-service-production.up.railway.app/ws/requests_responses", soapRequest);
+            SOAPMessage soapResponse = SoapHandler.sendSoapRequest("http://localhost:8082/ws/requests_responses", soapRequest);
             List<RealCardCMI> r = SoapHandler.parseGetAllCardsResponse(soapResponse);
 
             return ResponseEntity.ok(r);
@@ -174,4 +180,5 @@ public class PortefeuilleController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }   
     }
+
 }

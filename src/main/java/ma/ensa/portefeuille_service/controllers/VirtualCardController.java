@@ -22,7 +22,7 @@ public class VirtualCardController {
     private VirtualCardService virtualCardService;
 
     @PostMapping("/{portefeuilleId}")
-    public ResponseEntity<?> createVirtualCard(@PathVariable Long portefeuilleId, @RequestParam(required = false) Double solde) {
+    public ResponseEntity<?> createVirtualCard(@PathVariable String portefeuilleId, @RequestParam(required = false) Double solde) {
         try {
             VirtualCard virtualCard = virtualCardService.createVirtualCard(portefeuilleId, solde);
             return ResponseEntity.ok(virtualCard);

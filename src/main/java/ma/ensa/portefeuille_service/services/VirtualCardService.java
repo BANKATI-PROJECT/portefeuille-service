@@ -20,7 +20,7 @@ public class VirtualCardService {
     @Autowired
     private PortefeuilleRepository portefeuilleRepository;
 
-    public VirtualCard createVirtualCard(Long portefeuilleId, Double solde) {
+    public VirtualCard createVirtualCard(String portefeuilleId, Double solde) {
         Portefeuille portefeuille = portefeuilleRepository.findById(portefeuilleId)
                 .orElseThrow(() -> new RuntimeException("Portefeuille not found"));
 

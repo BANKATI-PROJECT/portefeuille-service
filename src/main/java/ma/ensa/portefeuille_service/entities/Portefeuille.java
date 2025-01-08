@@ -10,12 +10,11 @@ import jakarta.persistence.*;
 public class Portefeuille {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private String id;
 
     private Double solde;
 
-    private Double plafond;
+    private String plafond;
 
     private String currency;
     @Column(nullable = false)
@@ -36,7 +35,17 @@ public class Portefeuille {
     }
 
 
-    public Long getId() {
+    public Long getDefaultRealCard() {
+        return defaultRealCard;
+    }
+
+    public void setDefaultRealCard(Long defaultRealCard) {
+        this.defaultRealCard = defaultRealCard;
+    }
+
+    private Long defaultRealCard;
+
+    public String getId() {
         return id;
     }
 
@@ -45,7 +54,7 @@ public class Portefeuille {
         return solde;
     }
 
-    public Double getPlafond() {
+    public String getPlafond() {
         return plafond;
     }
 
@@ -57,7 +66,7 @@ public class Portefeuille {
         return virtualCards;
     }
 
-    public void setId(Long id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -65,7 +74,7 @@ public class Portefeuille {
         this.solde = solde;
     }
 
-    public void setPlafond(Double plafond) {
+    public void setPlafond(String plafond) {
         this.plafond = plafond;
     }
 
@@ -85,7 +94,7 @@ public class Portefeuille {
         this.clientId = clientId;
     }
 
-    public Portefeuille(Double solde, Double plafond, String currency, Long clientId, List<VirtualCard> virtualCards) {
+    public Portefeuille(Double solde, String plafond, String currency, Long clientId, List<VirtualCard> virtualCards) {
         this.solde = solde;
         this.plafond = plafond;
         this.currency = currency;
