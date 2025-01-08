@@ -47,7 +47,7 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
-<<<<<<< HEAD
+
 <!--		<dependency>-->
 <!--			<groupId>org.springframework.cloud</groupId>-->
 <!--			<artifactId>spring-cloud-starter-config</artifactId>-->
@@ -56,12 +56,12 @@
 <!--			<groupId>org.springframework.cloud</groupId>-->
 <!--			<artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>-->
 <!--		</dependency>-->
-=======
+
 		<!-- <dependency>
 			<groupId>org.springframework.cloud</groupId>
 			<artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
 		</dependency> -->
->>>>>>> d55f830d7ebd60c60101e74e854bf0402d72380f
+
 		<dependency>
 		    <groupId>com.mysql</groupId>
 		    <artifactId>mysql-connector-j</artifactId>
@@ -73,8 +73,7 @@
 			<scope>runtime</scope>
 			<optional>true</optional>
 		</dependency>
-<<<<<<< HEAD
-=======
+
 		<!-- https://mvnrepository.com/artifact/com.sun.xml.messaging.saaj/saaj-impl -->
 <dependency>
     <groupId>com.sun.xml.messaging.saaj</groupId>
@@ -82,18 +81,17 @@
     <version>3.0.4</version>
 </dependency>
 
-		<dependency>
-			<groupId>com.h2database</groupId>
-			<artifactId>h2</artifactId>
-			<scope>runtime</scope>
-		</dependency>
+<!--		<dependency>-->
+<!--			<groupId>com.h2database</groupId>-->
+<!--			<artifactId>h2</artifactId>-->
+<!--			<scope>runtime</scope>-->
+<!--		</dependency>-->
 
 		<dependency>
 		    <groupId>jakarta.xml.soap</groupId>
 		    <artifactId>jakarta.xml.soap-api</artifactId>
 		    <version>3.0.2</version>
 		</dependency>
->>>>>>> d55f830d7ebd60c60101e74e854bf0402d72380f
 
 		<dependency>
 			<groupId>org.projectlombok</groupId>

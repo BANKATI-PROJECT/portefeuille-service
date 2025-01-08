@@ -45,12 +45,8 @@ public class PortefeuilleService {
         return portefeuilleRepository.save(portefeuille);
     }
 
-<<<<<<< HEAD
 
     public Portefeuille incrementSolde(String id, Double amount) {
-=======
-    public Portefeuille incrementSolde(Long id, Double amount) {
->>>>>>> d55f830d7ebd60c60101e74e854bf0402d72380f
         Portefeuille portefeuille = portefeuilleRepository.findById(id).orElseThrow(() -> new RuntimeException("Portefeuille not found"));
         portefeuille.setSolde(portefeuille.getSolde() + amount);
 

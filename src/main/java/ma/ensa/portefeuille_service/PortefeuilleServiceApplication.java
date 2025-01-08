@@ -12,6 +12,7 @@ import org.springframework.context.annotation.Bean;
 import java.util.ArrayList;
 
 @SpringBootApplication
+@EnableFeignClients
 public class PortefeuilleServiceApplication {
 
 	public static void main(String[] args) {

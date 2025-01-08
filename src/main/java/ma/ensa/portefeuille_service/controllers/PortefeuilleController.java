@@ -2,12 +2,8 @@ package ma.ensa.portefeuille_service.controllers;
 
 import java.util.List;
 
-<<<<<<< HEAD
 import ma.ensa.portefeuille_service.requests.CreatePortfeuilleRequest;
-=======
-// import javax.sound.sampled.Port;
 
->>>>>>> d55f830d7ebd60c60101e74e854bf0402d72380f
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -40,16 +36,11 @@ public class PortefeuilleController {
     @Autowired
     private PortefeuilleService portefeuilleService;
 
-<<<<<<< HEAD
-=======
+
     @Autowired
     private ClientPortefeuilleFeign clientPortefeuilleFeign;
 
-    @PostMapping
-    public ResponseEntity<Portefeuille> createPortefeuille(@RequestBody Portefeuille portefeuille) {
-        return ResponseEntity.ok(portefeuilleService.createPortefeuille(portefeuille));
-    }
->>>>>>> d55f830d7ebd60c60101e74e854bf0402d72380f
+
 
     @GetMapping("/{id}")
     public ResponseEntity<Portefeuille> getPortefeuille(@PathVariable String id) {
@@ -121,7 +112,7 @@ public class PortefeuilleController {
         return ResponseEntity.ok(updatedPortefeuille);
     }
 
-<<<<<<< HEAD
+
 
     @PostMapping("/createPortefeuille")
     public Portefeuille createPostefeuille(@RequestBody CreatePortfeuilleRequest request) {
@@ -130,10 +121,8 @@ public class PortefeuilleController {
     }
 
 
-
-=======
     @PutMapping("/{portefeuilleId}/defaultcard/{id}")
-    public ResponseEntity<Portefeuille> setDefaultCard(@PathVariable("portefeuilleId") Long portefeuilleId,@PathVariable("id") long id) {
+    public ResponseEntity<Portefeuille> setDefaultCard(@PathVariable("portefeuilleId") String portefeuilleId,@PathVariable("id") long id) {
 
         Portefeuille updatedPortefeuille = portefeuilleService.getPortefeuille(portefeuilleId);
         
@@ -147,7 +136,7 @@ public class PortefeuilleController {
     }
 
     @PostMapping("/addRealCard/{id}")
-    public ResponseEntity<?> addRealCard(@PathVariable Long id,@RequestBody AddRealCreditCard realCreditCard) {
+    public ResponseEntity<?> addRealCard(@PathVariable String id,@RequestBody AddRealCreditCard realCreditCard) {
         SOAPMessage soapRequest;
         try {
             soapRequest = SoapHandler.buildAddRealCardRequest(
@@ -174,7 +163,7 @@ public class PortefeuilleController {
     }
 
     @GetMapping("/getRealCards/{id}")
-    public ResponseEntity<?> getRealCards(@PathVariable Long id) {
+    public ResponseEntity<?> getRealCards(@PathVariable String id) {
         SOAPMessage soapRequest;
         try {
             Portefeuille portefeuille = portefeuilleService.getPortefeuille(id);
@@ -192,5 +181,5 @@ public class PortefeuilleController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }   
     }
->>>>>>> d55f830d7ebd60c60101e74e854bf0402d72380f
+
 }
