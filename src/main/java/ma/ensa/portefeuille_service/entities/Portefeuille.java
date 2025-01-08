@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import jakarta.persistence.*;
-import lombok.Data;
+// import lombok.Data;
 
 @Entity
 public class Portefeuille {
@@ -21,6 +21,19 @@ public class Portefeuille {
     private Long clientId;
     @OneToMany(mappedBy = "portefeuille", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<VirtualCard> virtualCards = new ArrayList<>();
+    
+    private long defaultCardId;
+
+
+    public long getDefaultCardId() {
+        return defaultCardId;
+    }
+
+
+    public void setDefaultCardId(long defaultCardId) {
+        this.defaultCardId = defaultCardId;
+    }
+
 
     public Long getDefaultRealCard() {
         return defaultRealCard;

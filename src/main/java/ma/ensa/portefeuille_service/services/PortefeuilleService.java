@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import ma.ensa.portefeuille_service.entities.Portefeuille;
+import ma.ensa.portefeuille_service.feign.TransactionPortefeuilleFeign;
+import ma.ensa.portefeuille_service.model.DepositRequest;
 import ma.ensa.portefeuille_service.repositories.PortefeuilleRepository;
 
 @Service
@@ -16,6 +18,7 @@ public class PortefeuilleService {
 
     @Autowired
     private PortefeuilleRepository portefeuilleRepository;
+    @Autowired TransactionPortefeuilleFeign transactionFeign;
 
 
 
@@ -42,18 +45,21 @@ public class PortefeuilleService {
         return portefeuilleRepository.save(portefeuille);
     }
 
+<<<<<<< HEAD
 
     public Portefeuille incrementSolde(String id, Double amount) {
+=======
+    public Portefeuille incrementSolde(Long id, Double amount) {
+>>>>>>> d55f830d7ebd60c60101e74e854bf0402d72380f
         Portefeuille portefeuille = portefeuilleRepository.findById(id).orElseThrow(() -> new RuntimeException("Portefeuille not found"));
-
-        // Simulating a confirmation from a remote service
-        boolean isConfirmed = true; // Replace with actual logic later
-
-        if (!isConfirmed) {
-            throw new RuntimeException("Failed to confirm the increment with the remote service");
-        }
-
         portefeuille.setSolde(portefeuille.getSolde() + amount);
+
+        DepositRequest depositRequest = new DepositRequest();
+        depositRequest.setAmount(amount);
+        depositRequest.setClientId(portefeuille.getClientId());
+        depositRequest.setSolde(portefeuille.getSolde());
+        
+        transactionFeign.depositToPortefeuille(depositRequest);
         return portefeuilleRepository.save(portefeuille);
     }
 
