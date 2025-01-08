@@ -22,7 +22,6 @@ import ma.ensa.portefeuille_service.entities.Portefeuille;
 import ma.ensa.portefeuille_service.feign.ClientPortefeuilleFeign;
 import ma.ensa.portefeuille_service.model.AddRealCardResponse;
 import ma.ensa.portefeuille_service.model.AddRealCreditCard;
-// import ma.ensa.portefeuille_service.model.Client;
 import ma.ensa.portefeuille_service.model.MessageResponse;
 import ma.ensa.portefeuille_service.model.RealCardCMI;
 import ma.ensa.portefeuille_service.services.PortefeuilleService;
@@ -73,7 +72,7 @@ public class PortefeuilleController {
 
             SOAPMessage soapRequest;
             soapRequest = SoapHandler.createTransactionRequest(savetoken, portefeuille.getDefaultCardId(), amount);
-            SOAPMessage soapResponse = SoapHandler.sendSoapRequest("https://cmi-service-production.up.railway.app/ws/requests_responses", soapRequest);
+            SOAPMessage soapResponse = SoapHandler.sendSoapRequest("http://localhost:8082/ws/requests_responses", soapRequest);
             MessageResponse r = SoapHandler.parseCreateTransactionResponse(soapResponse);
 
             if(r.getMessage()=="Transaction successful"){
@@ -146,7 +145,7 @@ public class PortefeuilleController {
                 realCreditCard.getExpire(),
                 realCreditCard.getLabel());
             
-            SOAPMessage soapResponse = SoapHandler.sendSoapRequest("https://cmi-service-production.up.railway.app/ws/requests_responses", soapRequest);
+            SOAPMessage soapResponse = SoapHandler.sendSoapRequest("http://localhost:8082/ws/requests_responses", soapRequest);
             System.out.println("Number 1");
             AddRealCardResponse r = SoapHandler.parsebuildAddRealCardResponse(soapResponse);
             System.out.println("Number 2");
@@ -173,7 +172,7 @@ public class PortefeuilleController {
             String savetoken = clientPortefeuilleFeign.getSavetokenByClientId(portefeuille.getClientId()).getBody();
 
             soapRequest = SoapHandler.createGetAllCardsRequest(savetoken);
-            SOAPMessage soapResponse = SoapHandler.sendSoapRequest("https://cmi-service-production.up.railway.app/ws/requests_responses", soapRequest);
+            SOAPMessage soapResponse = SoapHandler.sendSoapRequest("http://localhost:8082/ws/requests_responses", soapRequest);
             List<RealCardCMI> r = SoapHandler.parseGetAllCardsResponse(soapResponse);
 
             return ResponseEntity.ok(r);
