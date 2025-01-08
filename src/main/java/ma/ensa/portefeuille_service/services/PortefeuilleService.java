@@ -1,7 +1,10 @@
 package ma.ensa.portefeuille_service.services;
 
 import java.util.List;
+import java.util.UUID;
 
+import com.mysql.cj.xdevapi.Schema;
+import ma.ensa.portefeuille_service.requests.CreatePortfeuilleRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,9 +17,7 @@ public class PortefeuilleService {
     @Autowired
     private PortefeuilleRepository portefeuilleRepository;
 
-    public Portefeuille createPortefeuille(Portefeuille portefeuille) {
-        return portefeuilleRepository.save(portefeuille);
-    }
+
 
     public Portefeuille getPortefeuille(String id) {
         return portefeuilleRepository.findById(id).orElseThrow(() -> new RuntimeException("Portefeuille not found"));
@@ -30,7 +31,7 @@ public class PortefeuilleService {
         return portefeuilleRepository.findAll();
     }
 
-    public Portefeuille updatePortefeuilleById(String id, String currency, Double plafond) {
+    public Portefeuille updatePortefeuilleById(String id, String currency, String plafond) {
         Portefeuille portefeuille = portefeuilleRepository.findById(id).orElseThrow(() -> new RuntimeException("Portefeuille not found"));
         if (currency != null) {
             portefeuille.setCurrency(currency);
@@ -72,5 +73,15 @@ public class PortefeuilleService {
                     existingPortefeuille.setSolde(portefeuille.getSolde()); return portefeuilleRepository.save(existingPortefeuille);
                 })
                 .orElse(null);
+    }
+
+    public Portefeuille createPortefeuille(CreatePortfeuilleRequest createPortfeuilleRequest){
+        Portefeuille portefeuille=new Portefeuille();
+        portefeuille.setId(UUID.randomUUID().toString());
+        portefeuille.setSolde(0.0);
+        portefeuille.setClientId(createPortfeuilleRequest.getClientId());
+        portefeuille.setCurrency(createPortfeuilleRequest.getCurrency());
+        portefeuille.setPlafond(createPortfeuilleRequest.getPlafond());
+        return portefeuilleRepository.save(portefeuille);
     }
 }

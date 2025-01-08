@@ -14,7 +14,7 @@ public class Portefeuille {
 
     private Double solde;
 
-    private Double plafond;
+    private String plafond;
 
     private String currency;
     @Column(nullable = false)
@@ -41,7 +41,7 @@ public class Portefeuille {
         return solde;
     }
 
-    public Double getPlafond() {
+    public String getPlafond() {
         return plafond;
     }
 
@@ -61,7 +61,7 @@ public class Portefeuille {
         this.solde = solde;
     }
 
-    public void setPlafond(Double plafond) {
+    public void setPlafond(String plafond) {
         this.plafond = plafond;
     }
 
@@ -81,7 +81,7 @@ public class Portefeuille {
         this.clientId = clientId;
     }
 
-    public Portefeuille(Double solde, Double plafond, String currency, Long clientId, List<VirtualCard> virtualCards) {
+    public Portefeuille(Double solde, String plafond, String currency, Long clientId, List<VirtualCard> virtualCards) {
         this.solde = solde;
         this.plafond = plafond;
         this.currency = currency;

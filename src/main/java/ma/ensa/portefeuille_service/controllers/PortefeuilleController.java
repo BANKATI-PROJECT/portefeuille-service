@@ -2,6 +2,7 @@ package ma.ensa.portefeuille_service.controllers;
 
 import java.util.List;
 
+import ma.ensa.portefeuille_service.requests.CreatePortfeuilleRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,10 +25,6 @@ public class PortefeuilleController {
     @Autowired
     private PortefeuilleService portefeuilleService;
 
-    @PostMapping
-    public ResponseEntity<Portefeuille> createPortefeuille(@RequestBody Portefeuille portefeuille) {
-        return ResponseEntity.ok(portefeuilleService.createPortefeuille(portefeuille));
-    }
 
     @GetMapping("/{id}")
     public ResponseEntity<Portefeuille> getPortefeuille(@PathVariable String id) {
@@ -40,7 +37,7 @@ public class PortefeuilleController {
     }
 
     @PutMapping("currencyPlafond/{id}")
-    public ResponseEntity<Portefeuille> updatePortefeuilleById(@PathVariable String id, @RequestParam(required = false) String currency, @RequestParam(required = false) Double plafond) {
+    public ResponseEntity<Portefeuille> updatePortefeuilleById(@PathVariable String id, @RequestParam(required = false) String currency, @RequestParam(required = false) String plafond) {
         try {
             Portefeuille updatedPortefeuille = portefeuilleService.updatePortefeuilleById(id, currency, plafond);
             return ResponseEntity.ok(updatedPortefeuille);
@@ -84,4 +81,14 @@ public class PortefeuilleController {
 
         return ResponseEntity.ok(updatedPortefeuille);
     }
+
+
+    @PostMapping("/createPortefeuille")
+    public Portefeuille createPostefeuille(@RequestBody CreatePortfeuilleRequest request) {
+    Portefeuille portefeuille = portefeuilleService.createPortefeuille(request);
+    return portefeuille;
+    }
+
+
+
 }
